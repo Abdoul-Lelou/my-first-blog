@@ -13,12 +13,13 @@ def post_list(request):
 
 def post_detail(request,pk):
 
-    post_detail = Post.objects.get(pk=pk)
+    post_detail = get_object_or_404(Post,pk=pk)
     return render(request, 'blog/post_detail.html', {'post_detail': post_detail})
 
 
 
 def post_new(request):
+
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -31,9 +32,10 @@ def post_new(request):
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
-    
+
 
 def post_edit(request, pk):
+
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
